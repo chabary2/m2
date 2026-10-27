@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maestry Company | Estrutura e Gestão de Operação</title>
+<meta name="description" content="Gestão de processos, coprodução e assessoria para especialistas e negócios digitais.">
+<meta name="author" content="Maestry Company">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Maestry Company | Estruturação, Gestão, Comercial e Escala Digital">
+<meta property="og:description" content="Engenharia de receita, coprodução e assessoria para especialistas e negócios digitais.">
+<meta name="theme-color" content="#060504">
+<link rel="icon" href="assets/maestry-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MAESTRY — versão editorial
+   Base: preto quente + dourado. Menos brilho, mais tipografia.
+   ============================================================ */
+
+:root {
+  --black:      #060504;
+  --black-2:    #0A0806;
+  --surface:    #0E0B07;
+  --surface-2:  #141009;
+
+  --gold:       #bf8c3a;
+  --gold-lite:  #e3bb86;
+  --gold-deep:  #b57b25;
+
+  --ink:        #EDE9E1;
+  --ink-2:      #B3ACA0;
+  --ink-3:      #7A736A;
+
+  --hair:       rgba(200,164,92,.16);
+  --hair-2:     rgba(200, 155, 92, 0.3);
+
+  --serif: "Instrument Serif", "Iowan Old Style", Georgia, "TT Firs Neue", serif;
+  --sans:  Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono:  "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+
+  --gut: clamp(1.25rem, 4vw, 3rem);
+  --max: 78rem;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--black);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* grão sutil, sem imagem externa */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: .5;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(200,164,92,.055), transparent 45%),
+    radial-gradient(circle at 82% 12%, rgba(200,164,92,.035), transparent 40%);
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+::selection { background: var(--gold); color: var(--black); }
+
+/* ---------- primitivos ---------- */
+
+.wrap {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gut);
+  position: relative;
+  z-index: 2;
+}
+
+.rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--hair-2) 22%, var(--hair-2) 78%, transparent);
+  border: 0;
+  margin: 0;
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+}
+
+.kicker::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: var(--gold);
+  opacity: .55;
+  flex-shrink: 0;
+}
+
+h1, h2, h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: -.015em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.6rem, 7.2vw, 5.6rem);
+  line-height: 1.02;
+  color: #fff;
+}
+
+h2 {
+  font-size: clamp(2rem, 4.6vw, 3.4rem);
+  line-height: 1.08;
+}
+
+h3 {
+  font-size: clamp(1.35rem, 2.2vw, 1.7rem);
+  line-height: 1.2;
+}
+
+p { margin: 0; color: var(--ink-2); }
+
+.lead {
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  line-height: 1.68;
+  color: var(--ink-2);
+  max-width: 40rem;
+}
+
+.sec { padding-block: clamp(5rem, 11vw, 9.5rem); }
+
+.sec-head {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 46rem;
+  margin-bottom: clamp(3rem, 6vw, 4.5rem);
+}
+.sec-head .kicker { margin-bottom: .25rem; }
+
+/* ---------- reveal ---------- */
+
+.rv {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .9s var(--ease), transform .9s var(--ease);
+  will-change: opacity, transform;
+}
+.rv.in { opacity: 1; transform: none; }
+
+/* ---------- header ---------- */
+
+.hdr {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  padding-block: 1.15rem;
+  transition: background .4s var(--ease), backdrop-filter .4s var(--ease),
+              border-color .4s var(--ease), padding .4s var(--ease);
+  border-bottom: 1px solid transparent;
+}
+.hdr.stuck {
+  background: rgba(6,5,4,.82);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+  border-bottom-color: var(--hair);
+  padding-block: .8rem;
+}
+.hdr__in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.hdr__logo { height: 2rem; width: auto; }
+
+.nav {
+  display: none;
+  align-items: center;
+  gap: 2.25rem;
+}
+.nav a {
+  font-size: .875rem;
+  font-weight: 400;
+  color: var(--ink-2);
+  position: relative;
+  padding-block: .3rem;
+  transition: color .3s var(--ease);
+}
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .4s var(--ease);
+}
+.nav a:hover { color: var(--gold-lite); }
+.nav a:hover::after { transform: scaleX(1); }
+
+/* botão — sólido, sem brilho */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  font-size: .82rem;
+  font-weight: 500;
+  letter-spacing: .04em;
+  padding: .85rem 1.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--gold);
+  color: var(--gold-lite);
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color .4s var(--ease);
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
+  transform: translateY(101%);
+  transition: transform .45s var(--ease);
+  z-index: -1;
+}
+.btn:hover { color: var(--black); }
+.btn:hover::before { transform: translateY(0); }
+.btn span, .btn svg { position: relative; z-index: 1; }
+.btn--solid {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
+  color: var(--black);
+  border-color: transparent;
+}
+.btn--solid::before { background: var(--gold-lite); }
+.btn--solid:hover { color: var(--black); }
+.btn--sm { padding: .6rem 1.1rem; font-size: .78rem; }
+.btn--lg { padding: 1.1rem 2.1rem; font-size: .9rem; }
+
+.arrow { transition: transform .4s var(--ease); }
+.btn:hover .arrow { transform: translateX(4px); }
+
+/* ---------- hero ---------- */
+
+.hero {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-block: 9rem 5rem;
+  position: relative;
+}
+.hero__grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  align-items: end;
+}
+.hero p { margin-top: 1.75rem; }
+.hero__cta { margin-top: 2.75rem; display: flex; flex-wrap: wrap; gap: 1rem; }
+
+.hero__meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 1.25rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hair);
+  margin-top: clamp(3rem, 7vw, 5rem);
+}
+.hero__meta dt {
+  font-family: var(--mono);
+  font-size: .64rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: .5rem;
+}
+.hero__meta dd {
+  margin: 0;
+  font-size: .92rem;
+  color: var(--ink);
+  line-height: 1.45;
+}
+
+/* ---------- manifesto ---------- */
+
+.manifesto {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+.manifesto__mark {
+  font-family: var(--serif);
+  font-size: clamp(4rem, 12vw, 9rem);
+  line-height: .8;
+  color: var(--gold);
+  opacity: .22;
+  user-select: none;
+}
+
+/* ---------- frentes ---------- */
+
+.frentes {
+  display: grid;
+  border-top: 1px solid var(--hair);
+}
+.frente {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem 2rem;
+  padding-block: 2.25rem;
+  border-bottom: 1px solid var(--hair);
+  position: relative;
+  transition: background .45s var(--ease);
+}
+.frente::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--gut) * -1);
+  right: calc(var(--gut) * -1);
+  top: 0; bottom: 0;
+  background: linear-gradient(90deg, rgba(200,164,92,.05), transparent 70%);
+  opacity: 0;
+  transition: opacity .45s var(--ease);
+  pointer-events: none;
+}
+.frente:hover::before { opacity: 1; }
+
+.frente__num {
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .12em;
+  color: var(--gold);
+  padding-top: .5rem;
+}
+.frente h3 { margin-bottom: .75rem; }
+.frente p { max-width: 44rem; }
+
+/* ---------- processo ---------- */
+
+.proc {
+  display: grid;
+  gap: 2.5rem;
+  counter-reset: step;
+}
+.step {
+  display: grid;
+  gap: 1rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--hair);
+  position: relative;
+}
+.step::before {
+  content: "";
+  position: absolute;
+  top: -1px; left: 0;
+  width: 3rem; height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .8s var(--ease);
+}
+.step.in::before { transform: scaleX(1); }
+.step__num {
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .14em;
+  color: var(--gold);
+}
+
+/* ---------- critérios ---------- */
+
+.crit {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+.crit__col {
+  border: 1px solid var(--hair);
+  background: linear-gradient(180deg, var(--surface), rgba(10,8,6,.4));
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+}
+.crit__col h3 { margin-bottom: 1.75rem; }
+.crit__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.15rem; }
+.crit__col li {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  gap: .9rem;
+  font-size: .95rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.crit__mark {
+  font-family: var(--mono);
+  font-size: .95rem;
+  line-height: 1.55;
+  color: var(--gold);
+}
+.crit__col--no .crit__mark { color: var(--ink-3); }
+
+/* ---------- formatos ---------- */
+
+.formats {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+.fmt {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--hair);
+  position: relative;
+}
+.fmt::before {
+  content: "";
+  position: absolute;
+  top: -1px; left: 0;
+  width: 3rem; height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .8s var(--ease);
+}
+.fmt.in::before { transform: scaleX(1); }
+.fmt__label {
+  font-family: var(--mono);
+  font-size: .66rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.fmt h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); }
+.fmt__when {
+  font-size: .88rem;
+  line-height: 1.6;
+  color: var(--ink-3);
+  border-left: 1px solid var(--hair-2);
+  padding-left: 1.1rem;
+  margin-top: .35rem;
+}
+
+/* ---------- faq ---------- */
+
+.faq { border-top: 1px solid var(--hair); }
+.qa { border-bottom: 1px solid var(--hair); }
+.qa__q {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 1.6rem;
+  text-align: left;
+  transition: color .3s var(--ease);
+}
+.qa__q:hover { color: var(--gold-lite); }
+.qa__q h3 { font-size: clamp(1.05rem, 1.7vw, 1.3rem); }
+.qa__sign {
+  font-family: var(--mono);
+  font-size: 1.1rem;
+  color: var(--gold);
+  flex-shrink: 0;
+  line-height: 1.3;
+  transition: transform .45s var(--ease);
+}
+.qa[open] .qa__sign { transform: rotate(45deg); }
+.qa__a {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .5s var(--ease);
+}
+.qa[open] .qa__a { grid-template-rows: 1fr; }
+.qa__a > div { overflow: hidden; }
+.qa__a p {
+  padding-bottom: 1.75rem;
+  max-width: 48rem;
+  font-size: .96rem;
+  line-height: 1.68;
+}
+/* fallback p/ navegadores sem details animado */
+.qa summary { list-style: none; cursor: pointer; }
+.qa summary::-webkit-details-marker { display: none; }
+
+/* ---------- cta ---------- */
+
+.cta {
+  text-align: center;
+  padding-block: clamp(6rem, 13vw, 11rem);
+  position: relative;
+}
+.cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 55% 45% at 50% 100%, rgba(200,164,92,.10), transparent 70%);
+  pointer-events: none;
+}
+.cta h2 {
+  max-width: 32rem;
+  margin-inline: auto;
+  margin-bottom: 2.75rem;
+}
+.cta h2 em {
+  font-style: italic;
+  color: var(--gold-lite);
+}
+
+/* ---------- footer ---------- */
+
+.ftr {
+  border-top: 1px solid var(--hair);
+  padding-block: 3.5rem 2rem;
+  position: relative;
+  z-index: 2;
+}
+.ftr__grid {
+  display: grid;
+  gap: 2.5rem;
+  padding-bottom: 2.75rem;
+}
+.ftr__brand img { height: 2rem; width: auto; margin-bottom: 1rem; }
+.ftr__brand p { font-size: .85rem; color: var(--ink-3); max-width: 20rem; }
+.ftr h4 {
+  font-family: var(--mono);
+  font-size: .64rem;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 1.1rem;
+}
+.ftr ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+.ftr a, .ftr button {
+  font-size: .9rem;
+  color: var(--ink-2);
+  padding: 0;
+  text-align: left;
+  transition: color .3s var(--ease);
+}
+.ftr a:hover, .ftr button:hover { color: var(--gold-lite); }
+.ftr__base {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem 1.5rem;
+  justify-content: space-between;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--hair);
+  font-size: .78rem;
+  color: var(--ink-3);
+}
+
+/* ---------- responsivo ---------- */
+
+@media (min-width: 48rem) {
+  .nav { display: flex; }
+  .hero__grid { grid-template-columns: 1.35fr .65fr; }
+  .manifesto { grid-template-columns: .3fr 1fr; }
+  .frente { grid-template-columns: 4.5rem 1fr; }
+  .proc { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+  .formats { grid-template-columns: 1fr 1fr; }
+  .crit { grid-template-columns: 1fr 1fr; }
+  .ftr__grid { grid-template-columns: 1.4fr 1fr 1fr; }
+}
+
+@media (max-width: 47.99rem) {
+  .hero__meta { grid-template-columns: 1fr; gap: 1.5rem; }
+  .hdr__cta { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rv, .step::before, .btn::before, .qa__a, .qa__sign { transition: none !important; }
+  .rv { opacity: 1; transform: none; }
+  .step::before { transform: scaleX(1); }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header class="hdr" id="hdr">
+  <div class="wrap hdr__in">
+    <a href="#hero" aria-label="Maestry Company - Início">
+      <img src="assets/maestry-logo.png" alt="Maestry Company" class="hdr__logo">
+    </a>
+
+    <nav class="nav" aria-label="Navegação principal">
+      <a href="#hero">Início</a>
+      <a href="#diferenciais">Posicionamento</a>
+      <a href="#frentes">Frentes</a>
+      <a href="#formatos">Modelos</a>
+      <a href="#processo">Método</a>
+      <a href="#criterio">Critérios</a>
+    </nav>
+
+    <a class="btn btn--sm hdr__cta" href="https://tally.so/r/68k4do" target="_blank" rel="noopener noreferrer">
+      <span>Fale com a gente</span>
+    </a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="hero">
+    <div class="wrap">
+      <div class="hero__grid">
+        <div>
+          <p class="kicker rv">Enstrutura preparada para escala</p>
+          <h1 class="rv" style="margin-top:1.5rem">Construímos os processos da sua operação no digital.</h1>
+        </div>
+        <div class="rv">
+          <p class="lead">Conhecimento sem processo vira gargalo. Estruturamos processoss com previsibilidade para especialistas e infoprodutores com geração de demanda consistente, combinando esteira de produtos de alto valor com processos bem estruturados.</p>
+        </div>
+      </div>
+
+      <div class="hero__cta rv">
+        <a class="btn btn--solid btn--lg" href="https://tally.so/r/68k4do" target="_blank" rel="noopener noreferrer">
+          <span>Entre em contato</span>
+          <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a class="btn btn--lg" href="#formatos"><span>Conhecer os modelos</span></a>
+      </div>
+
+      <dl class="hero__meta rv">
+        <div>
+          <dt>Objetivo central</dt>
+          <dd>Receita previsível, margem líquida e escala de caixa</dd>
+        </div>
+        <div>
+          <dt>Modelos de trabalho</dt>
+          <dd>Coprodução e assessoria para negócios</dd>
+        </div>
+        <div>
+          <dt>Perfil de parceiro</dt>
+          <dd>Especialistas ou operações com audiencia real mimíma </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ===================== MANIFESTO / SOBRE ===================== -->
+  <section class="sec" id="diferenciais">
+    <div class="wrap">
+      <div class="manifesto">
+        <div class="manifesto__mark rv" aria-hidden="true">§</div>
+        <div>
+          <div class="sec-head" style="margin-bottom:2rem">
+            <p class="kicker rv">Diagnóstico de mercado</p>
+            <h2 class="rv">O seu real problema é a ausência de estrutura.</h2>
+          </div>
+          <p class="lead rv">A maioria dos especialistas e empreendedores vive refém do próprio negócio. Produz conteúdo sem descanso, depende de picos instáveis de vendas e vive rodando no improviso. O resultado é faturamento oscilante, margem esmagada e exaustão operacional.</p>
+          <p class="lead rv" style="margin-top:1.5rem">A Maestry não é agência tradicional de marketing. Nós entramos para resolver o gargalo que trava a sua operação: transformamos audiência e autoridade em uma operação estruturada, com ofertas de alto ticket, funis de qualificação contínua e estrutura preparada para fechar negócios diariamente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ===================== FRENTES ===================== -->
+  <section class="sec" id="frentes">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker rv">Arquitetura de negócio</p>
+        <h2 class="rv">Os quatro pilares do nosso modelo</h2>
+      </div>
+
+      <div class="frentes">
+        <article class="frente rv">
+          <div class="frente__num">01</div>
+          <div>
+            <h3>Engenharia de Oferta e Esteira</h3>
+            <p>Desenhamos a matriz de produtos para maximizar o ticket médio e o LTV. Da entrada até programas de alto valor, cada oferta tem propósito financeiro claro para eliminar a dependência de um produto único.</p>
+          </div>
+        </article>
+
+        <article class="frente rv">
+          <div class="frente__num">02</div>
+          <div>
+            <h3>Máquina Comercial e Inside Sales</h3>
+            <p>Vendas ativas com previsibilidade matemática. Implementamos processos de prospecção, qualificação e fechamento, além de estruturar estratégias para equipes de SDRs e Closers com rotinas para conversão diária.</p>
+          </div>
+        </article>
+
+        <article class="frente rv">
+          <div class="frente__num">03</div>
+          <div>
+            <h3>Aquisição e Conteúdo Posicionado</h3>
+            <p>Conteúdo que não gera reunião ou venda direta é custo operacional. Alinhamos distribuição orgânica e mídia de performance com um único objetivo: abastecer o time de vendas com compradores qualificados.</p>
+          </div>
+        </article>
+
+        <article class="frente rv">
+          <div class="frente__num">04</div>
+          <div>
+            <h3>Posicionamento e Marca Institucional</h3>
+            <p>A percepção de autoridade dita o teto de preço que o mercado aceita pagar. Construímos uma presença de alto padrão para repelir curiosos, blindar reputação e viabilizar contratos de ticket elevado.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ===================== FORMATOS ===================== -->
+  <section class="sec" id="formatos">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker rv">Modelos de contratação</p>
+        <h2 class="rv">Dois formatos de atuação. Sem ambiguidade.</h2>
+        <p class="lead rv">O modelo certo depende exclusivamente do nível da sua operação, do seu nível de maturidade e de onde está o seu gargalo.</p>
+      </div>
+
+      <div class="formats">
+
+        <article class="fmt rv">
+          <span class="fmt__label">Coprodução - Revenue Share </span>
+          <h3>Entramos como sócios na operação</h3>
+          <p>Assumimos a responsabilidade da operação de ponta a ponta. Estruturamos os funis, montamos o time, gerenciamos as estratégias, conduzimos a aquisição e dividimos o risco. Nossa remuneração principal é atrelada diretamente ao faturamento que colocamos no seu bolso.</p>
+          <p class="fmt__when">Indicado para especialistas com autoridade reconhecida (mesmo que pequena), audiência miníma ativa e demanda reprimida, que precisam de um braço operacional de bastidor para faturar alto sem se desviar da entrega técnica.</p>
+        </article>
+
+        <article class="fmt rv">
+          <span class="fmt__label">Modelo de Assessoria</span>
+          <h3>Direcionamos a sua equipe interna</h3>
+          <p>A execução permanece com o seu time, mas a tomada de decisão passa a ter método. Auditamos indicadores comerciais semanalmente, corrigimos furos no funil, desenhamos playbooks de vendas e organizamos metas com rigor executivo.</p>
+          <p class="fmt__when">Indicado para empresas digitais que já contam com equipe própria de marketing e vendas, mas sofrem com estagnação de receita, falta de estratégias qualificadas e ausência de processos claros de gestão.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ===================== PROCESSO ===================== -->
+  <section class="sec" id="processo">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker rv">Metodologia</p>
+        <h2 class="rv">Do diagnóstico à receita em caixa</h2>
+      </div>
+
+      <div class="proc">
+        <div class="step rv">
+          <div class="step__num">Fase 01</div>
+          <h3>Auditoria e Analise</h3>
+          <p>Análise cirúrgica da operação: margens líquidas, CAC, histórico de conversão e gargalos da esteira. Identificamos onde o dinheiro está vazando e mapeamos alavancas imediatas de receita.</p>
+        </div>
+
+        <div class="step rv">
+          <div class="step__num">Fase 02</div>
+          <h3>Estruturação da Máquina</h3>
+          <p>Desenho da matriz de produtos, criação dos roteiros comerciais, alinhamento ou contratação de equipe de vendas e implantação dos processos de prospecção e qualificação.</p>
+        </div>
+
+        <div class="step rv">
+          <div class="step__num">Fase 03</div>
+          <h3>Operação e Otimização Diária</h3>
+          <p>Gestão por indicadores. Acompanhamento diário de taxas de conversão, auditoria de contatos comerciais, ajuste fino de canais e execução com foco inegociável em bater metas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ===================== CRITÉRIOS ===================== -->
+  <section class="sec" id="criterio">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker rv">Filtro para parceria</p>
+        <h2 class="rv">Para quem a Maestry foi desenhada?</h2>
+      </div>
+
+      <div class="crit">
+        <div class="crit__col rv">
+          <h3>Perfil Qualificado</h3>
+          <ul>
+            <li><span class="crit__mark" aria-hidden="true">+</span><span>Possui autoridade real no nicho (mesmo que tenha poucos seguidores), conhecimento prático ou serviço com demanda comprovada no mercado.</span></li>
+            <li><span class="crit__mark" aria-hidden="true">+</span><span>Quer romper a instabilidade e construir receita comercial diária.</span></li>
+            <li><span class="crit__mark" aria-hidden="true">+</span><span>Compreende que escala sólida exige rotinas comerciais, processos rígidos e gestão por números.</span></li>
+            <li><span class="crit__mark" aria-hidden="true">+</span><span>Busca uma parceria séria focada em margem líquida, lucratividade e crescimento sustentável.</span></li>
+          </ul>
+        </div>
+
+        <div class="crit__col crit__col--no rv">
+          <h3>Fora do Perfil</h3>
+          <ul>
+            <li><span class="crit__mark" aria-hidden="true">−</span><span>Iniciantes sem validação mínima de mercado, sem conhecimento real e sem experiência prática comprovada.</span></li>
+            <li><span class="crit__mark" aria-hidden="true">−</span><span>Quem procura atalhos milagrosos, fórmulas fáceis ou promessas sem fundamento operacional.</span></li>
+            <li><span class="crit__mark" aria-hidden="true">−</span><span>Quem espera terceirizar 100% das obrigações sem participar dos alinhamentos estratégicos.</span></li>
+            <li><span class="crit__mark" aria-hidden="true">−</span><span>Operações desorganizadas que resistem à implantação de processos e cobrança de metas.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ===================== FAQ ===================== -->
+  <section class="sec" id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker rv">FAQ</p>
+        <h2 class="rv">Perguntas frequentes</h2>
+      </div>
+
+      <div class="faq rv">
+
+        <details class="qa">
+          <summary class="qa__q">
+            <h3>Qual a diferença prática entre Coprodução e Assessoria?</h3>
+            <span class="qa__sign" aria-hidden="true">+</span>
+          </summary>
+          <div class="qa__a"><div>
+            <p>Na Coprodução, assumimos a responsabilidade direta pela execução da operação: estruturamos a esteira, montamos a equipe de vendas, geramos demanda e somos remunerados com percentual sobre o resultado obtido. Na Assessoria, não operamos as ferramentas no dia a dia: nós capacitamos, auditamos e direcionamos a sua equipe, trazendo método, estratégias, metas e gestão contínua.</p>
+          </div></div>
+        </details>
+
+        <details class="qa">
+          <summary class="qa__q">
+            <h3>Preciso ter uma audiência gigantesca para trabalhar com a Maestry?</h3>
+            <span class="qa__sign" aria-hidden="true">+</span>
+          </summary>
+          <div class="qa__a"><div>
+            <p>Não. Não trabalhamos com volume vazio de métricas de vaidade. O requisito real é ter uma autoridade mínima e demanda qualificada. Com uma base enxuta e engajada, estruturamos ofertas de alto ticket e estratégias de aquisição ativa que faturam múltiplos dígitos sem necessidade de milhões de seguidores.</p>
+          </div></div>
+        </details>
+
+        <details class="qa">
+          <summary class="qa__q">
+            <h3>Como funciona o modelo de remuneração?</h3>
+            <span class="qa__sign" aria-hidden="true">+</span>
+          </summary>
+          <div class="qa__a"><div>
+            <p>Na Coprodução, trabalhamos com participação percentual sobre a receita ou lucro gerado pela operação com a nossa gestão, com fee de entrada conforme o estágio do projeto. Na Assessoria, o modelo é de mensalidade fixa por ciclo de acompanhamento, com escopo e entregáveis personalizados para sua operação.</p>
+          </div></div>
+        </details>
+
+        <details class="qa">
+          <summary class="qa__q">
+            <h3>Qual é a duração dos contratos?</h3>
+            <span class="qa__sign" aria-hidden="true">+</span>
+          </summary>
+          <div class="qa__a"><div>
+            <p>Nossas operações são estruturadas para o médio e longo prazo. Não realizamos consultorias superficiais de 30 dias. Trabalhamos com compromisso de ao menos de 90 dias a 12 meses, tempo necessário para validar processos, formar equipe e consolidar a estratégia de aquisiçãoi.</p>
+          </div></div>
+        </details>
+
+        <details class="qa">
+          <summary class="qa__q">
+            <h3>Como funciona a aplicação inicial?</h3>
+            <span class="qa__sign" aria-hidden="true">+</span>
+          </summary>
+          <div class="qa__a"><div>
+            <p>Você preenche o formulário de uma reunião gratuita. Avaliamos o estado, posicionamento e momento da sua operação. Analisamos sua posição e entraremos em contato para agendar uma reunião de alinhamento totalmente gratuita.</p>
+          </div></div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="cta" id="cta">
+    <div class="wrap">
+      <h2 class="rv">Pare de depender da sorte e da sobrecarga para <em>faturar.</em></h2>
+      <a class="btn btn--solid btn--lg rv" href="https://tally.so/r/68k4do" target="_blank" rel="noopener noreferrer">
+        <span>Entrar em contato</span>
+        <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__grid">
+      <div class="ftr__brand">
+        <img src="assets/maestry-logo.png" alt="Maestry Company">
+        <p>Estruturação comercial, coprodução e assessoria para operações digitais e pequenas empresas.</p>
+      </div>
+
+      <div>
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#hero">Início</a></li>
+          <li><a href="#diferenciais">Posicionamento</a></li>
+          <li><a href="#frentes">Frentes</a></li>
+          <li><a href="#formatos">Modelos</a></li>
+          <li><a href="#processo">Método</a></li>
+          <li><a href="#criterio">Critérios</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/maestrycompany/" target="_blank" rel="noopener noreferrer">Instagram @maestrycompany</a></li>
+          <li><a href="mailto:maestrycomp@gmail.com">maestrycomp@gmail.com</a></li>
+          <li><a href="https://tally.so/r/68k4do" target="_blank" rel="noopener noreferrer">Formulário de Contato</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ftr__base">
+      <span>© 2026 Maestry. Todos os direitos reservados.</span>
+      <span>Estruturação e Gestão para experts e operações.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* header com fundo ao rolar */
+  var hdr = document.getElementById("hdr");
+  var onScroll = function () {
+    hdr.classList.toggle("stuck", window.scrollY > 24);
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* reveal em cascata */
+  var items = Array.prototype.slice.call(document.querySelectorAll(".rv"));
+
+  if (reduce || !("IntersectionObserver" in window)) {
+    items.forEach(function (el) { el.classList.add("in"); });
+    return;
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var el = e.target;
+      var group = el.parentElement ? Array.prototype.slice.call(el.parentElement.children) : [];
+      var i = group.indexOf(el);
+      el.style.transitionDelay = (i > 0 ? Math.min(i, 6) * 80 : 0) + "ms";
+      el.classList.add("in");
+      io.unobserve(el);
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+
+  items.forEach(function (el) { io.observe(el); });
+
+  /* acordeão: um aberto por vez */
+  var qas = Array.prototype.slice.call(document.querySelectorAll(".qa"));
+  qas.forEach(function (d) {
+    d.addEventListener("toggle", function () {
+      if (!d.open) return;
+      qas.forEach(function (o) { if (o !== d) o.open = false; });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
