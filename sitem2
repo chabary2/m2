@@ -633,7 +633,7 @@ p { margin: 0; color: var(--ink-2); }
     <div class="wrap">
       <div class="hero__grid">
         <div>
-          <p class="kicker rv">Enstrutura preparada para escala</p>
+          <p class="kicker rv">Estrutura feita para sua escala</p>
           <h1 class="rv" style="margin-top:1.5rem">Construímos os processos da sua operação no digital.</h1>
         </div>
         <div class="rv">
